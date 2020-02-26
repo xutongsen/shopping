@@ -14,4 +14,4 @@ app.use(createLoading());
   app.use(plugin);
 });
 
-app.model({ namespace: 'goods', ...(require('C:/Users/yt037/Desktop/kaikeba/projects/umi-test/src/pages/goods/models/goods.js').default) });
+app.model({ namespace: 'goods', ...(require('/Users/xutongsen/project/reactProject/umi-test/src/pages/goods/models/goods.js').default) });
