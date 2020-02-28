@@ -1,10 +1,14 @@
-import { Layout, Menu } from 'antd'
+import { Layout, Menu, Badge, Icon, Dropdown } from 'antd'
 import styles from  './index.less'
+import { connect } from 'dva'
 import Link from 'umi/link'
 
 const { Header, Footer, Content} = Layout
 
-export default function(props) {
+export default connect(state=>({
+  count: state.cart.length,
+  cart: state.cart
+}))(function(props) {
   let { pathname } = props.location
   let menus = [
     {
@@ -28,7 +32,19 @@ export default function(props) {
   }).map(item => {
     return item.path
   })
-  console.log(menusKey)
+
+  const menu = (
+    <Menu>
+      {
+        props.cart.map((item, index) => (
+          <Menu.Item key={index}>
+            {item.name}×{item.count} 
+            <span>¥{item.count * item.price}</span>
+          </Menu.Item> 
+        ))
+      }
+    </Menu> 
+  );
   
   return (
     <Layout>
@@ -51,6 +67,13 @@ export default function(props) {
             <Link to = '/about'>关于</Link>
           </Menu.Item>
         </Menu>
+        <Dropdown overlay={menu} placement="bottomRight">
+          <div>
+            <Icon type="shopping-cart" style={{fontSize:18}}/> 
+            <span>我的购物车</span>
+            <Badge count={props.count} offset={[-4,-18]}/>
+          </div>
+        </Dropdown>
       </Header>
       <Content className = {styles.content}>
         <div className = {styles.box}>
@@ -60,4 +83,4 @@ export default function(props) {
       <Footer className = {styles.footer}>哈哈</Footer>
     </Layout>
   )
-}
+})

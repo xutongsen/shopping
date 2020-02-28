@@ -2,3 +2,13 @@
 .normal {
   background: #EC79F2;
 }
+
+.loginForm {
+  margin: 100px auto;
+  width: 30%;
+  text-align: left;
+}
+
+.login {
+  margin-bottom: 30px;
+}

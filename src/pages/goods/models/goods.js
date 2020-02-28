@@ -2,25 +2,29 @@ import axios from 'axios';
 
 // api
 function getGoods(){
-  return axios.get('/api/goods')
+  return axios.get('/api/goods').then(({data}) => {
+    return {
+      courses: data.courseData.data,
+      tags: data.courseData.tags
+    }
+  })
 }
 
 export default {
   namespace: "goods",
-  state: [],
+  state: {
+    courses: {},
+    tags: []
+  },
   effects: {
     *getList(action, {call, put}){           
-      const res = yield call(getGoods)
-      yield put({ type: 'initGoods', payload: res.data.result })
+      const payload = yield call(getGoods)
+      yield put({ type: 'initGoods', payload })
     }
   },
   reducers: {
     initGoods(state,{payload}){
       return payload
     },
-    addGood(state, action) {
-      console.log(action);
-      return [...state, { title: action.payload.title }];
-    }
   }
 };
